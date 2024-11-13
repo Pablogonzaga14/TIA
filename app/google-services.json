@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "697369075790",
+    "project_id": "app-tia",
+    "storage_bucket": "app-tia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697369075790:android:893d94349cc16d6404231f",
+        "android_client_info": {
+          "package_name": "com.example.tia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwXJeVUg8E1zPn-A8ujunqJoUuWgAbRXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
