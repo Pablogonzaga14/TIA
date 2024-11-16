@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseNetworkException;
@@ -31,8 +35,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.net.Authenticator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,6 +55,7 @@ public class Form_Cadastro extends AppCompatActivity {
     private EditText edit_nome, edit_email, edit_senha;
     private TextView txt_mensagem_erro;
     private Uri mSlectUri;
+    private String usuraioID;
 
     @Override
     public void setFinishOnTouchOutside(boolean finish) {
@@ -88,6 +101,7 @@ public class Form_Cadastro extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+                    SalvadorDadosUsuarios();
                     Snackbar snackbar = Snackbar.make(view,"cadastro realizado com sucesso!",Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -111,6 +125,7 @@ public class Form_Cadastro extends AppCompatActivity {
                         erro = "Erro ao cadastrar usuário";
                     }
                     txt_mensagem_erro.setText(erro);
+
                 }
             }
         });
@@ -139,7 +154,52 @@ public class Form_Cadastro extends AppCompatActivity {
         intent.setType("image/*");
         activityResultLauncher.launch(intent);
     }
+public void SalvadorDadosUsuarios(){
+        String nomeArquivo = UUID.randomUUID().toString();
+        final StorageReference reference = FirebaseStorage.getInstance().getReference("imagens"+nomeArquivo);
+        reference.putFile(mSlectUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String foto = mSlectUri.toString();
+                                String nome = edit_nome.getText().toString();
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                Map<String,Object> usuarios = new HashMap<>();
+                                usuarios.put("nome",nome);
+                                usuarios.put("foto",foto);
 
+                                usuraioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                DocumentReference documentReference = db.collection("Usuarios").document(usuraioID);
+                                documentReference.set(usuarios).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Log.i("db","Sucesso ao salvar dados");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.i("db","Falha ao salvar dados");
+                                    }
+                                });
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+}
     public void IniciarComponentes(){
         fotoUsuario = findViewById(R.id.fotoUsuario);
         bt_cadastrar = findViewById(R.id.bt_cadastrar);
