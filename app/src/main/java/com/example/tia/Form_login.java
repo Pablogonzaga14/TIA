@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Form_login extends AppCompatActivity {
     private TextView txt_criar_conta,txt_mensagem_erro;
@@ -103,6 +104,19 @@ public class Form_login extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    //Metodo para verificar se o usuario está logado
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser usuarioAtual = FirebaseAuth.getInstance().getCurrentUser();
+        if(usuarioAtual != null){
+         IniciarTelaProdutos();
+        }
+    }
+
+    //Fim do metodo de verificação se o usuario está logado
     public void IniciarComponentes(){
         txt_criar_conta = findViewById(R.id.txt_criar_conta);
         txt_mensagem_erro = findViewById(R.id.txt_mensagem_erro);
