@@ -40,7 +40,9 @@ public class Lista_produtos extends AppCompatActivity {
         int  itemID = item.getItemId();
         
         if (itemID == R.id.perfil){
-            
+            Intent intent = new Intent (Lista_produtos.this, Perfil_Usuario.class);
+            startActivity(intent);
+            finish();
         } else if (itemID == R.id.pedidos) {
 
         } else if (itemID == R.id.desogar) {

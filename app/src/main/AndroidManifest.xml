@@ -15,6 +15,9 @@
         android:theme="@style/Theme.TIA"
         tools:targetApi="31">
         <activity
+            android:name=".Perfil_Usuario"
+            android:exported="false" />
+        <activity
             android:name=".Lista_produtos"
             android:exported="false" />
         <activity

@@ -156,7 +156,8 @@ public class Form_Cadastro extends AppCompatActivity {
     }
 public void SalvadorDadosUsuarios(){
         String nomeArquivo = UUID.randomUUID().toString();
-        final StorageReference reference = FirebaseStorage.getInstance().getReference("imagens"+nomeArquivo);
+        //criando uma pasta no storage
+        final StorageReference reference = FirebaseStorage.getInstance().getReference("/imagens/"+nomeArquivo);
         reference.putFile(mSlectUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
