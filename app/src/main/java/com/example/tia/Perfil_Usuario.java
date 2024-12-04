@@ -1,6 +1,8 @@
 package com.example.tia;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -40,6 +42,13 @@ public class Perfil_Usuario extends AppCompatActivity {
             return insets;
         });
         IniciarComponentes();
+        bt_editarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Perfil_Usuario.this,Editar_Perfil.class);
+                startActivity(intent);
+            }
+        });
     }
     //Metodo responsavel por iniciar uma conexão com o banco de dados para recuperar os dados do banco de dados
     protected void onStart(){
