@@ -2,16 +2,10 @@ package com.example.tia.Model;
 
 public class Produto {
 
-    private int foto;
+    private String foto;
     private String nome;
     private String preco;
     private String descricao;
-
-    public Produto(int foto, String nome, String preco) {
-        this.foto = foto;
-        this.nome = nome;
-        this.preco = preco;
-    }
 
     public String getNome() {
         return nome;
@@ -21,11 +15,11 @@ public class Produto {
         this.nome = nome;
     }
 
-    public int getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(int foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 

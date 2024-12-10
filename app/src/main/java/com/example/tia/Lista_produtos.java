@@ -17,7 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tia.Adapter.AdapterProduto;
 import com.example.tia.Model.Produto;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +31,7 @@ public class Lista_produtos extends AppCompatActivity {
     private RecyclerView recyclerView_produtos;
     private AdapterProduto adapterProduto;
     private List <Produto> produtoList;
+    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,29 +48,27 @@ public class Lista_produtos extends AppCompatActivity {
         recyclerView_produtos.setHasFixedSize(true);
         recyclerView_produtos.setAdapter(adapterProduto);
 
-        Produto produto = new Produto(R.drawable.ic_launcher_background,"produto 1", "R$20");
-        produtoList.add(produto);
+        db = FirebaseFirestore.getInstance();
+        //trazendo os itens do banco de dados para a nossa lista que será exibida na tela
+        //esse orderby coloca a lista em ordem alfabetica
+        db.collection("Produtos").orderBy("nome")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            produtoList.clear();
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                Produto produto = queryDocumentSnapshot.toObject(Produto.class);
+                                produtoList.add(produto);
+                                //metodo que notifica a lista caso tenha novos itens
+                                adapterProduto.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
 
-        Produto produto1 = new Produto(R.drawable.ic_launcher_background,"produto 1", "R$20");
-        produtoList.add(produto1);
 
-        Produto produto2 = new Produto(R.drawable.ic_launcher_background,"produto 1", "R$20");
-        produtoList.add(produto2);
-
-        Produto produto3 = new Produto(R.drawable.ic_launcher_background,"produto 1", "R$20");
-        produtoList.add(produto3);
-
-        Produto produto4 = new Produto(R.drawable.ic_launcher_background,"produto 1", "R$20");
-        produtoList.add(produto4);
-
-        Produto produto5 = new Produto(R.drawable.ic_launcher_background,"produto 1", "R$20");
-        produtoList.add(produto5);
-
-        Produto produto6 = new Produto(R.drawable.ic_launcher_background,"produto 1", "R$20");
-        produtoList.add(produto6);
-
-        Produto produto7 = new Produto(R.drawable.ic_launcher_background,"produto 1", "R$20");
-        produtoList.add(produto7);
     }
 //metodo responsavel por criar um menu novo para gente usar
     @Override
