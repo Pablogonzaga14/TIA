@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,18 +30,20 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:backgroundTint="@android:color/transparent"/>
+
     <EditText
         android:id="@+id/edit_nome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome"
-        android:background="@drawable/edit_text_shape"
-        android:padding="15dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/edit_text_shape"
+        android:hint="Nome"
         android:inputType="text"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:padding="15dp" />
+
     <Button
         android:id="@+id/bt_AtualizarDados"
         android:layout_width="match_parent"

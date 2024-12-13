@@ -163,6 +163,8 @@ public void SalvadorDadosUsuarios(){
                             @Override
                             public void onSuccess(Uri uri) {
                                 String foto = uri.toString();
+
+                                //iniciar o banco de dados -firestore
                                 String nome = edit_nome.getText().toString();
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                                 Map<String,Object> usuarios = new HashMap<>();
