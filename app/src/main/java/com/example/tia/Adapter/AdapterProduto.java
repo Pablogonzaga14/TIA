@@ -42,6 +42,7 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.ProdutoV
         Glide.with(context).load(produtoList.get(position).getFoto()).into(holder.foto);
         holder.nome.setText(produtoList.get(position).getNome());
         holder.preco.setText(produtoList.get(position).getPreco());
+        //holder.descricao.setText(produtoList.get(position).getDescricao());
     }
 
     @Override
@@ -60,6 +61,7 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.ProdutoV
             foto = itemView.findViewById(R.id.fotoProduto);
             nome = itemView.findViewById(R.id.nomeProduto);
             preco = itemView.findViewById(R.id.precoProduto);
+            descricao = itemView.findViewById(R.id.dtDescricaoProduto);
         }
     }
 }

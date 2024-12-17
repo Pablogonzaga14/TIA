@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tia.Adapter.AdapterProduto;
 import com.example.tia.Model.Produto;
+import com.example.tia.RecyclerViewItemClickList.RecyclerViewItemClickList;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +51,37 @@ public class Lista_produtos extends AppCompatActivity {
         recyclerViewProdutos.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerViewProdutos.setHasFixedSize(true);
         recyclerViewProdutos.setAdapter(adapterProduto);
+
+        //Evento de click no recyclerview
+
+        recyclerViewProdutos.addOnItemTouchListener(
+                new RecyclerViewItemClickList(
+                        getApplicationContext(),
+                        recyclerViewProdutos,
+                        new RecyclerViewItemClickList.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                 Intent intent = new Intent(Lista_produtos.this,Detalhes_Produtos.class);
+                                 intent.putExtra("foto",produtoList.get(position).getFoto());
+                                 intent.putExtra("nome",produtoList.get(position).getNome());
+                                 //intent.putExtra("descricao",produtoList.get(position).getDescricao());
+                                 intent.putExtra("preco",produtoList.get(position).getPreco());
+                                 startActivity(intent);
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
+
         db = FirebaseFirestore.getInstance();
         db.collection("Produtos").orderBy("nome")
                 .get()
