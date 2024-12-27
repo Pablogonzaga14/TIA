@@ -16,4 +16,4 @@ Todo o desenvolvimento foi realizado em Java, utilizando boas práticas de progr
 
 Estou sempre em busca de novas oportunidades para aplicar e expandir meu conhecimento. Se ficou curioso sobre o projeto, vamos conversar! 😊</h4>
 <h2>App em execução</h2>
-<img src="https://i.imgur.com/W543GWI.gif" />
+<img src="https://imgur.com/W543GWI" />
